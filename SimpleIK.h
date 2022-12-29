@@ -3,14 +3,9 @@
 
 class SimpleIK {
 
-
   private:
   double _groundClearance;
   double _shoulderLen;
-
-  double calcDist(double x, double z) {
-    return sqrt((x * x) + (z * z));
-  }
 
   public:
 
@@ -27,16 +22,14 @@ class SimpleIK {
     return atan2(x, z) * 180 / PI;
   }
 
-  double calcAlpha(double x, double y, double z) {
-    double adjustedY = y;
-    if (y == _groundClearance) {
-      adjustedY = _groundClearance - 0.1;
-    }
-    
-    double dist = calcDist(x, z);
+  double calcAlpha(double x, double z) {
+    double topLen = sqrt(pow(z, 2) + pow(x, 2));
+    double d = topLen - _shoulderLen;
+    double yOffset = sqrt(pow(d, 2) + pow(_groundClearance, 2)) - _groundClearance;
+    double dist = sqrt(pow(x, 2) + pow(z, 2));
     
     double a = _groundClearance;
-    double b = _groundClearance - adjustedY;
+    double b = _groundClearance - yOffset;
     double c = dist - _shoulderLen;
     
     double angleInRad = acos((pow(a, 2) + pow(b, 2) - pow(c, 2)) / (2 * a * b));

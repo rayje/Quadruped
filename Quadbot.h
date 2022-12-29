@@ -17,7 +17,7 @@ const int armJoints[4][2] = {
 };
 
 const double shoulderLen = 41.5;
-const double groundClearance = 72;
+const double groundClearance = 72.0;
 SimpleIK simpleIk(groundClearance, shoulderLen);
 
 class Quadbot {
@@ -50,12 +50,12 @@ class Quadbot {
     }
   }
 
-  void moveServoTo(int legIndex, double x, double y, double z) {
+  void moveServoTo(int legIndex, double x, double z) {
     int armIndex = armJoints[legIndex][0];
     int shoulderIndex = armJoints[legIndex][1];
 
     double ikShoulderAngle = simpleIk.calcTheta(x, z);
-    double ikArmAngle = simpleIk.calcAlpha(x, y, z);    
+    double ikArmAngle = simpleIk.calcAlpha(x, z);
     double shoulderAngle = map(ikShoulderAngle, 0, 90, 0, 180);
     double armAngle = map(ikArmAngle, 0, 90, 0, 180);
 

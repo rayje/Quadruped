@@ -9,7 +9,6 @@ class WebPage {
     return "<form method=\"post\" enctype=\"application/x-www-form-urlencoded\" action=\"/moveServo\">\
     <input type=\"text\" name=\"legIndex\" value=\"\">\
     <input type=\"text\" name=\"x\" value=\"\">\
-    <input type=\"text\" name=\"y\" value=\"\">\
     <input type=\"text\" name=\"z\" value=\"\">\
     <input type=\"submit\" value=\"Move\">\
     </form>";

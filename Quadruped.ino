@@ -72,14 +72,13 @@ void reset() {
 
 void moveServoTo() {
   int legIndex = server.arg("legIndex").toInt();
-  int x = server.arg("x").toDouble();
-  int y = server.arg("y").toDouble();
-  int z = server.arg("z").toDouble();
+  double x = server.arg("x").toDouble();
+  double z = server.arg("z").toDouble();
 
   Serial.printf(" - leg: %d\n", legIndex);
-  Serial.printf(" - x: %f y: %f z: %f\n", x, y, z);
+  Serial.printf(" - x: %f z: %f\n", x, z);
 
-  bot.moveServoTo(legIndex, x, y, z);
+  bot.moveServoTo(legIndex, x, z);
   handleRoot();
 }
 
