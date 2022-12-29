@@ -19,16 +19,8 @@ class SimpleIK {
   }
 
   double calcAlpha(double x, double z) {
-    double dist = sqrt(sq(x) + sq(z));
-    double d = dist - _shoulderLen;
-    double yOffset = sqrt(sq(d) + sq(_groundClearance)) - _groundClearance;
-    
-    double a = _groundClearance;
-    double b = _groundClearance - yOffset;
-    double c = dist - _shoulderLen;
-    
-    double angleInRad = acos((sq(a) + sq(b) - sq(c)) / (2 * a * b));
-    return angleInRad * 180 / PI;
+    double d = sqrt(sq(x) + sq(z)) - _shoulderLen;
+    return asin(d / _groundClearance) * 180 / PI;
   }
 
 };
