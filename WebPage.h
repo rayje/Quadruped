@@ -60,7 +60,6 @@ class WebPage {
   public:
 
   WebPage() {
-
   }
 
   String getRootPage(Quadbot bot) {
@@ -74,5 +73,4 @@ class WebPage {
 
     return html;
   }
-
 };
