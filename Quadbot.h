@@ -25,14 +25,14 @@ class Quadbot {
   private:
 
   Servo servo[numberOfServos]; // Servo object
-  int armPos[numberOfServos] = {0, 90, 180, 90, 0, 90, 180, 90};
+  double armPos[numberOfServos] = {0, 90, 180, 90, 0, 90, 180, 90};
 
   public:
 
   Quadbot() {
   }
 
-  int* getArmPos() {
+  double* getArmPos() {
     return armPos;
   }
 
@@ -55,13 +55,15 @@ class Quadbot {
     int shoulderIndex = armJoints[legIndex][1];
 
     double ikShoulderAngle = simpleIk.calcTheta(x, z);
-    double ikArmAngle = simpleIk.calcAlpha(x, y, z);
-    
+    double ikArmAngle = simpleIk.calcAlpha(x, y, z);    
     double shoulderAngle = map(ikShoulderAngle, 0, 90, 0, 180);
     double armAngle = map(ikArmAngle, 0, 90, 0, 180);
 
     armPos[armIndex] = armAngle;
     armPos[shoulderIndex] = shoulderAngle;
+
+    Serial.printf("ikShoulderAngle: %f, ikArmAngle: %f\n", ikShoulderAngle, ikArmAngle);
+    Serial.printf("armAngle: %f, shoulderAngle: %f\n", armPos[armIndex], armPos[shoulderIndex]);
 
     servo[shoulderIndex].write(armPos[armIndex]);
     servo[armIndex].write(armPos[shoulderIndex]);

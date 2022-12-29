@@ -34,16 +34,12 @@ class SimpleIK {
     }
     
     double dist = calcDist(x, z);
-    Serial.printf("dist: %f\n", dist);
     
     double a = _groundClearance;
     double b = _groundClearance - adjustedY;
     double c = dist - _shoulderLen;
-
-    Serial.printf("a: %f, b: %f, c: %f\n", a, b, c);
     
     double angleInRad = acos((pow(a, 2) + pow(b, 2) - pow(c, 2)) / (2 * a * b));
-    Serial.printf("Angle In Rad: %f\n", angleInRad);
     return angleInRad * 180 / PI;
   }
 

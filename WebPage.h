@@ -47,7 +47,7 @@ class WebPage {
     </form>";
   }
 
-  String showArmPos(int armPos[]) {
+  String showArmPos(double armPos[]) {
     String html = "<ol>";
     for (int i = 0; i < numberOfServos; i++) {
       html += "<li>" + String(armPos[i]) + "</li>";
