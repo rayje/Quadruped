@@ -1,4 +1,5 @@
 #include "Quadbot.h"
+#include "Types.h"
 
 
 class WebPage {
@@ -6,7 +7,7 @@ class WebPage {
   private:
 
   String moveArmForm() {
-    return "<form method=\"post\" enctype=\"application/x-www-form-urlencoded\" action=\"/moveServo\">\
+    return "<h2>Move Arm</h2><form method=\"post\" enctype=\"application/x-www-form-urlencoded\" action=\"/moveServo\">\
     <input type=\"text\" name=\"legIndex\" value=\"\">\
     <input type=\"text\" name=\"x\" value=\"\">\
     <input type=\"text\" name=\"z\" value=\"\">\
@@ -46,6 +47,18 @@ class WebPage {
     </form>";
   }
 
+  String moveArmRangeForm() {
+    return "<form method=\"post\" enctype=\"application/x-www-form-urlencoded\" action=\"/moveArmRange\">\
+    <input type=\"submit\" value=\"Move Arm Range\">\
+    </form>";
+  }
+
+  String moveArmOneForm() {
+    return "<form method=\"post\" enctype=\"application/x-www-form-urlencoded\" action=\"/moveArmOne\">\
+    <input type=\"submit\" value=\"Move Arm 1\">\
+    </form>";
+  }
+
   String showArmPos(double armPos[]) {
     String html = "<ol>";
     for (int i = 0; i < numberOfServos; i++) {
@@ -56,6 +69,38 @@ class WebPage {
     return html;
   }
 
+  String showLegMoved(double armPos[], Indicies idx) {
+    String html = "<text>";
+    int armIndex = idx.armIndex;
+    int shoulderIndex = idx.shoulderIndex;
+    
+    html += "Arm " + String(armIndex) + " moved to " + String(armPos[armIndex]) + ", ";
+    html += "Shoulder " + String(shoulderIndex) + " moved to " + String(armPos[shoulderIndex]) + "\n";
+    html += "</text>";
+    
+    return html;
+  }
+
+  String showSetServoAngle() {
+    return "<h2>Set Servo Angle</h2><form method=\"post\" enctype=\"application/x-www-form-urlencoded\" action=\"/setServoAngle\">\
+    <input type=\"text\" name=\"index\" value=\"5\">\
+    <input type=\"text\" name=\"angle\" value=\"500\">\
+    <input type=\"submit\" value=\"Set Servo Angle\">\
+    </form>";
+  }
+
+  String showUpdatedServoAngle(ServoAngle angle) {
+    return "<text>Arm " + String(angle.index) + " moved to " + String(angle.angle) + "</text>";
+  }
+
+  String basicBody() {
+    String html = resetForm();
+    html += moveArmRangeForm();
+    html += moveArmForm();
+    html += moveArmOneForm();
+
+    return html;
+  }
 
   public:
 
@@ -65,12 +110,38 @@ class WebPage {
   String getRootPage(Quadbot bot) {
     String html = "<html>";
 
-    html += resetForm();
-    html += moveArmForm();
+    html += basicBody();
     html += showArmPos(bot.getArmPos());
+    html += showSetServoAngle();
 
     html += "</html>";
 
     return html;
+  }
+
+  String handleServoMoved(Quadbot bot, Indicies idx) {
+    String html = "<html>";
+
+    html += basicBody();
+    html += showArmPos(bot.getArmPos());
+    html += showLegMoved(bot.getArmPos(), idx);
+    html += showSetServoAngle();
+
+    html += "</html>";
+
+    return html;    
+  }
+
+  String handleSetServoAngle(Quadbot bot, ServoAngle angle) {
+    String html = "<html>";
+
+    html += basicBody();
+    html += showArmPos(bot.getArmPos());
+    html += showSetServoAngle();
+    html += showUpdatedServoAngle(angle);
+
+    html += "</html>";
+
+    return html;    
   }
 };
